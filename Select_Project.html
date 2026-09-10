@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        select, input[type="button"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        input[type="button"] {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border: none;
+            margin-top: 10px;
+        }
+        input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Select a Project</h2>
+
+    <div class="form-group">
+        <label for="project-select">Choose a option from the list:</label>
+        <select id="project-select">
+            <option value="">-- Please select an option --</option>
+            <option value="https://tianhoolim.github.io/Form-Testing/scaffold_register_record_A">Project A - Scaffold Register Record</option>
+            <option value="https://tianhoolim.github.io/Form-Testing/weekly_scaffold_checklist_A.html">Project A - Weekly Scaffold Checklist</option>
+            <option value="https://tianhoolim.github.io/Form-Testing/weekly_scaffold_checklist_C.html">Project C - Weekly Scaffold Checklist</option>
+	    <option value="https://tianhoolim.github.io/Form-Testing/scaffold_register_record_B">Project B - Scaffold Register Record</option>
+            <option value="https://tianhoolim.github.io/Form-Testing/weekly_scaffold_checklist_B.html">Project B - Weekly Scaffold Checklist</option>
+            <option value="https://tianhoolim.github.io/Form-Testing/weekly_scaffold_checklist_C.html">Project C - Weekly Scaffold Checklist</option>
+
+        </select>
+    </div>
+    
+    <input type="button" value="Open Selected File" onclick="openSelectedProject()">
+
+    <script>
+        function openSelectedProject() {
+            const selectElement = document.getElementById("project-select");
+            const selectedPath = selectElement.value;
+
+            if (selectedPath) {
+                window.location.href = selectedPath;
+            } else {
+                alert("Please select a project option first.");
+            }
+        }
+    </script>
+
+</body>
+</html>
