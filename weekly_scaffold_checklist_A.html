@@ -586,6 +586,9 @@ async function submitForm() {
     button.disabled = true;
     button.textContent = "Generating PDF & Uploading...";
 
+    // Reset window scroll position to eliminate top whitespace alignment shifts
+    window.scrollTo(0, 0);
+
     const PCLOUD_UPLOAD_CODE = "fMxXZ64gI7pdIgwRO7tB5HNpmJVkh4sQV";
 
     const company = document.getElementById("company").value.trim();
