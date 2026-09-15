@@ -62,16 +62,6 @@ textarea { resize: vertical; }
 .submit-btn:hover { background: #0d5fa5; }
 .status { margin-top: 8px; text-align: right; font-size: 12px; }
 
-/* Prevention of row splitting across PDF pages */
-tr, td, th {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-}
-.ack-section, .section-title {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-}
-
 @media (max-width: 768px) {
     body { padding: 0; }
     .page { padding: 8px; }
@@ -574,26 +564,6 @@ function clearsignaturePad() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-function prepareFormForPdf() {
-    // Synchronize radio choices to DOM attributes for HTML rendering engine
-    document.querySelectorAll('input[type="radio"]').forEach(radio => {
-        if (radio.checked) {
-            radio.setAttribute("checked", "checked");
-        } else {
-            radio.removeAttribute("checked");
-        }
-    });
-
-    // Synchronize dynamic text inputs and textareas
-    document.querySelectorAll('input[type="text"], input[type="date"], input[type="datetime-local"], textarea').forEach(input => {
-        if (input.tagName.toLowerCase() === 'textarea') {
-            input.textContent = input.value;
-        } else {
-            input.setAttribute("value", input.value);
-        }
-    });
-}
-
 async function submitForm() {
     const required = document.querySelectorAll("[required]");
     let ok = true;
@@ -615,12 +585,6 @@ async function submitForm() {
     const button = document.querySelector(".submit-btn");
     button.disabled = true;
     button.textContent = "Generating PDF & Uploading...";
-
-    // Reset window scroll position to eliminate top whitespace alignment shifts
-    window.scrollTo(0, 0);
-
-    // Sync input states before exporting
-    prepareFormForPdf();
 
     const PCLOUD_UPLOAD_CODE = "fMxXZ64gI7pdIgwRO7tB5HNpmJVkh4sQV";
 
