@@ -122,12 +122,6 @@ input:focus, select:focus, textarea:focus {
     cursor: crosshair;
     display: block;
 }
-.signature-img {
-    display: none;
-    max-width: 100%;
-    height: 40px;
-    object-fit: contain;
-}
 .row-number {
     text-align: center;
     font-weight: bold;
@@ -239,54 +233,6 @@ button:hover { opacity: 0.9; }
     min-width: 120px;
 }
 
-.pdf-display-val {
-    display: none;
-    font-size: 11px;
-    word-break: break-word;
-    white-space: pre-wrap;
-}
-
-/* Page break protection for multi-page alignment */
-tr, .remarks-section, .supervisor-section, .footer-note {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-}
-
-body.pdf-generating {
-    width: 1024px !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-body.pdf-generating .page {
-    max-width: 1024px !important;
-    width: 1024px !important;
-    margin: 0 !important;
-    padding: 15px !important;
-}
-
-body.pdf-generating .pdf-display-val {
-    display: block !important;
-}
-
-body.pdf-generating .signature-img {
-    display: block !important;
-}
-
-body.pdf-generating input,
-body.pdf-generating textarea,
-body.pdf-generating select,
-body.pdf-generating .actions,
-body.pdf-generating .clear-btn,
-body.pdf-generating .delete-btn,
-body.pdf-generating .submit-section,
-body.pdf-generating .col-delete,
-body.pdf-generating .status-options,
-body.pdf-generating .signature-pad {
-    display: none !important;
-}
-
 @media (max-width: 768px) {
     body { padding: 0; }
     .page { padding: 8px; }
@@ -335,7 +281,9 @@ body.pdf-generating .signature-pad {
         padding: 2px;
     }
 
-    .status-options { gap: 2px; }
+    .status-options {
+        gap: 2px;
+    }
     .status-options label {
         font-size: 8px;
         white-space: normal;
@@ -346,7 +294,9 @@ body.pdf-generating .signature-pad {
         transform: scale(0.8);
     }
 
-    .signature-pad { height: 35px; }
+    .signature-pad {
+        height: 35px;
+    }
 
     .delete-btn {
         padding: 2px 4px;
@@ -361,6 +311,15 @@ body.pdf-generating .signature-pad {
         flex-direction: column;
         gap: 5px;
     }
+}
+
+@media print {
+    body { background: white; padding: 0; margin: 0; }
+    .page { max-width: none; box-shadow: none; padding: 0; margin: 0; }
+    .actions, .delete-btn, .submit-section, .clear-btn { display: none !important; }
+    input, select, textarea { border: none; box-shadow: none; }
+    .signature-pad { border: 1px solid #777; }
+    tr { page-break-inside: avoid; }
 }
 
 .save-status {
@@ -399,27 +358,27 @@ body.pdf-generating .signature-pad {
     <table class="info-table">
         <tr>
             <td class="info-label">Company:</td>
-            <td class="info-input"><input type="text" id="company" required><span class="pdf-display-val"></span></td>
+            <td class="info-input"><input type="text" id="company" required></td>
             <td class="info-label">Trade of Work:</td>
-            <td class="info-input"><input type="text" id="tradeOfWork" required><span class="pdf-display-val"></span></td>
+            <td class="info-input"><input type="text" id="tradeOfWork" required></td>
         </tr>
         <tr>
             <td class="info-label">Project:</td>
-            <td class="info-input"><input type="text" id="project" required><span class="pdf-display-val"></span></td>
+            <td class="info-input"><input type="text" id="project" required></td>
             <td class="info-label">Date:</td>
-            <td class="info-input"><input type="date" id="recordDate" required><span class="pdf-display-val"></span></td>
+            <td class="info-input"><input type="date" id="recordDate" required></td>
         </tr>
         <tr>
             <td class="info-label">Supervised by:</td>
-            <td class="info-input"><input type="text" id="supervisedBy" required><span class="pdf-display-val"></span></td>
+            <td class="info-input"><input type="text" id="supervisedBy" required></td>
             <td class="info-label">Type of Scaffold:</td>
-            <td class="info-input"><input type="text" id="scaffoldType" required><span class="pdf-display-val"></span></td>
+            <td class="info-input"><input type="text" id="scaffoldType" required></td>
         </tr>
         <tr>
             <td class="info-label">Location:</td>
-            <td class="info-input"><input type="text" id="location" required><span class="pdf-display-val"></span></td>
+            <td class="info-input"><input type="text" id="location" required></td>
             <td class="info-label">Max. Height:</td>
-            <td class="info-input"><input type="text" id="maxHeight" placeholder="e.g. 10 m" required><span class="pdf-display-val"></span></td>
+            <td class="info-input"><input type="text" id="maxHeight" placeholder="e.g. 10 m" required></td>
         </tr>
     </table>
 
@@ -449,7 +408,6 @@ body.pdf-generating .signature-pad {
         <div class="remarks-title">Remarks</div>
         <div class="remarks-box">
             <textarea id="remarks" placeholder="Enter remarks"></textarea>
-            <span class="pdf-display-val"></span>
         </div>
     </div>
 
@@ -462,12 +420,10 @@ body.pdf-generating .signature-pad {
                         <div class="supervisor-name">
                             <label for="supervisorName">Name:</label>
                             <input type="text" id="supervisorName" placeholder="Supervisor name" required>
-                            <span class="pdf-display-val"></span>
                         </div>
                         <div class="supervisor-signature-container">
                             <label>Signature:</label>
                             <canvas id="supervisorSignature" class="signature-pad supervisor-signature"></canvas>
-                            <img id="supervisorSignatureImg" class="signature-img" alt="Signature">
                             <button type="button" class="clear-btn" onclick="clearSupervisorSignature()">Clear Signature</button>
                         </div>
                     </div>
@@ -475,7 +431,6 @@ body.pdf-generating .signature-pad {
                 <td class="datetime-content">
                     <label for="supervisorDateTime">Date &amp; Time:</label>
                     <input type="datetime-local" id="supervisorDateTime" required>
-                    <span class="pdf-display-val"></span>
                 </td>
             </tr>
         </table>
@@ -494,6 +449,7 @@ body.pdf-generating .signature-pad {
 
 <script>
 let inspectionCount = 0;
+let supervisorSignatureState = null;
 
 window.addEventListener("DOMContentLoaded", function () {
     addInspectionRow();
@@ -527,35 +483,21 @@ function addInspectionRow() {
 
     row.innerHTML = `
         <td class="row-number">${inspectionCount}</td>
-        <td>
-            <input type="date">
-            <span class="pdf-display-val"></span>
-        </td>
-        <td>
-            <input type="text" placeholder="Location">
-            <span class="pdf-display-val"></span>
-        </td>
+        <td><input type="date"></td>
+        <td><input type="text" placeholder="Location"></td>
         <td>
             <div class="status-options">
                 <label><input type="radio" name="status_${inspectionCount}" value="With Defects"> With Defects</label>
                 <label><input type="radio" name="status_${inspectionCount}" value="In Good Order"> In Good Order</label>
             </div>
-            <span class="pdf-display-val"></span>
         </td>
-        <td>
-            <input type="text" placeholder="Tag / ID">
-            <span class="pdf-display-val"></span>
-        </td>
-        <td>
-            <input type="text" placeholder="Name">
-            <span class="pdf-display-val"></span>
-        </td>
+        <td><input type="text" placeholder="Tag / ID"></td>
+        <td><input type="text" placeholder="Name"></td>
         <td>
             <canvas class="signature-pad inspection-signature"></canvas>
-            <img class="signature-img" alt="Signature">
             <button type="button" class="clear-btn" style="margin-top:2px; padding:2px 4px; font-size:8px;" onclick="clearCanvas(this)">Clear</button>
         </td>
-        <td class="col-delete">
+        <td>
             <button type="button" class="delete-btn" onclick="deleteInspectionRow(this)">X</button>
         </td>
     `;
@@ -574,39 +516,6 @@ function renumberRows() {
     const rows = document.querySelectorAll("#inspectionBody tr");
     rows.forEach(function (row, index) {
         row.querySelector(".row-number").textContent = index + 1;
-    });
-}
-
-function syncInputsForPdf() {
-    document.querySelectorAll("td, div, .remarks-box").forEach(container => {
-        const input = container.querySelector("input[type='text'], input[type='date'], input[type='datetime-local'], textarea");
-        const pdfSpan = container.querySelector(".pdf-display-val");
-        if (input && pdfSpan) {
-            pdfSpan.textContent = input.value || "";
-        }
-    });
-
-    document.querySelectorAll("#inspectionBody tr").forEach(row => {
-        const radios = row.querySelectorAll("input[type='radio']");
-        const pdfSpan = row.cells[3].querySelector(".pdf-display-val");
-        if (radios.length && pdfSpan) {
-            let selectedValue = "";
-            radios.forEach(radio => {
-                if (radio.checked) selectedValue = radio.value;
-            });
-            pdfSpan.textContent = selectedValue;
-        }
-    });
-
-    document.querySelectorAll("canvas").forEach(canvas => {
-        const img = canvas.parentElement.querySelector(".signature-img");
-        if (img) {
-            try {
-                img.src = canvas.toDataURL("image/png");
-            } catch (e) {
-                console.error("Signature export failed:", e);
-            }
-        }
     });
 }
 
@@ -651,12 +560,6 @@ async function submitForm() {
         submitButton.textContent = "Generating PDF & Uploading...";
         showSaveStatus("Generating PDF and uploading to server. Please wait...", "success");
 
-        window.scrollTo(0, 0);
-        syncInputsForPdf();
-        document.body.classList.add("pdf-generating");
-
-        await new Promise(resolve => setTimeout(resolve, 250));
-
         const projectVal = document.getElementById("project").value.trim() || "Scaffold_Record";
         const safeProjectName = projectVal.replace(/[^a-zA-Z0-9_-]/g, "_").substring(0, 80);
         const now = new Date();
@@ -665,28 +568,23 @@ async function submitForm() {
         const timeStr = `${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}`;
         const filename = `Scaffold_Register_${safeProjectName}_${dateStr}_${timeStr}.pdf`;
 
+        const pdfHiddenElements = document.querySelectorAll(".actions, .submit-section, .delete-btn, .clear-btn");
+        pdfHiddenElements.forEach(el => el.style.display = "none");
+
         const pdfElement = document.getElementById("pdf-content");
-        
         const pdfBlob = await html2pdf()
             .set({
                 margin: [5, 5, 5, 5],
                 filename: filename,
                 image: { type: "jpeg", quality: 0.95 },
-                html2canvas: { 
-                    scale: 2, 
-                    useCORS: true, 
-                    backgroundColor: "#ffffff", 
-                    scrollY: 0, 
-                    scrollX: 0,
-                    windowWidth: 1024
-                },
+                html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff", scrollY: 0 },
                 jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
                 pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
             })
             .from(pdfElement)
             .outputPdf("blob");
 
-        document.body.classList.remove("pdf-generating");
+        pdfHiddenElements.forEach(el => el.style.display = "");
 
         const formData = new FormData();
         formData.append("code", "fMxXZ64gI7pdIgwRO7tB5HNpmJVkh4sQV");
@@ -709,9 +607,10 @@ async function submitForm() {
         }
 
     } catch (error) {
-        document.body.classList.remove("pdf-generating");
         showSaveStatus("Error: " + error.message, "error");
     } finally {
+        const pdfHiddenElements = document.querySelectorAll(".actions, .submit-section, .delete-btn, .clear-btn");
+        pdfHiddenElements.forEach(el => el.style.display = "");
         submitButton.disabled = false;
         submitButton.textContent = "Generate PDF & Upload to Server";
     }
@@ -724,44 +623,54 @@ function showSaveStatus(message, type) {
     status.style.display = "block";
 }
 
-function setupCanvas(canvas) {
+function prepareCanvas(canvas) {
     const ctx = canvas.getContext("2d");
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width || 300;
-    canvas.height = rect.height || 50;
 
-    ctx.lineWidth = 2;
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
-    ctx.strokeStyle = "#111";
+    function resize() {
+        if (canvas.width === 0 || canvas.offsetWidth !== canvas.width) {
+            const rect = canvas.getBoundingClientRect();
+            const ratio = window.devicePixelRatio || 1;
+            canvas.width = rect.width * ratio || 300;
+            canvas.height = rect.height * ratio || 50;
+            ctx.scale(ratio, ratio);
+            ctx.lineWidth = 2;
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+            ctx.strokeStyle = "#111";
+        }
+    }
 
-    let drawing = false;
+    resize();
+    return { canvas, ctx, drawing: false, resize };
+}
 
+function attachDrawing(canvas, state) {
     function getPosition(event) {
-        const r = canvas.getBoundingClientRect();
+        const rect = canvas.getBoundingClientRect();
         const p = event.touches ? event.touches[0] : event;
-        return { x: p.clientX - r.left, y: p.clientY - r.top };
+        return { x: p.clientX - rect.left, y: p.clientY - rect.top };
     }
 
     function start(event) {
         event.preventDefault();
-        drawing = true;
+        state.resize();
+        state.drawing = true;
         const pos = getPosition(event);
-        ctx.beginPath();
-        ctx.moveTo(pos.x, pos.y);
+        state.ctx.beginPath();
+        state.ctx.moveTo(pos.x, pos.y);
     }
 
     function draw(event) {
-        if (!drawing) return;
+        if (!state.drawing) return;
         event.preventDefault();
         const pos = getPosition(event);
-        ctx.lineTo(pos.x, pos.y);
-        ctx.stroke();
+        state.ctx.lineTo(pos.x, pos.y);
+        state.ctx.stroke();
     }
 
     function stop(event) {
         if (event) event.preventDefault();
-        drawing = false;
+        state.drawing = false;
     }
 
     canvas.addEventListener("mousedown", start);
@@ -775,7 +684,8 @@ function setupCanvas(canvas) {
 
 function setupRowSignature(row) {
     const canvas = row.querySelector(".inspection-signature");
-    setupCanvas(canvas);
+    const state = prepareCanvas(canvas);
+    attachDrawing(canvas, state);
 }
 
 function clearCanvas(button) {
@@ -786,7 +696,8 @@ function clearCanvas(button) {
 
 function setupSignaturePad() {
     const canvas = document.getElementById("supervisorSignature");
-    setupCanvas(canvas);
+    supervisorSignatureState = prepareCanvas(canvas);
+    attachDrawing(canvas, supervisorSignatureState);
 }
 
 function clearSupervisorSignature() {
